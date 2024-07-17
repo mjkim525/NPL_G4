@@ -1,0 +1,26 @@
+{
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "new": "cpp",
+        "*.icc": "cpp",
+        "MakeInput.C": "cpp",
+        "__split_buffer": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "h1": "cpp",
+        "h2": "cpp",
+        "h3": "cpp",
+        "vec2": "cpp",
+        "vec3": "cpp",
+        "vec4": "cpp",
+        "vector3": "cpp",
+        "event": "cpp",
+        "rbuf": "cpp",
+        "buffer": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "__config": "cpp"
+    }
+}
