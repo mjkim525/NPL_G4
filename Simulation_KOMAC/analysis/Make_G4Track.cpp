@@ -4,7 +4,7 @@ using namespace std;
 
 void Make_G4()
 {
-    TFile* G = new TFile("Make_Out.root", "recreate");
+    TFile* G = new TFile("Make_Out_Track.root", "recreate");
 
     const int DetID = 1;
     const int Target_PDG = 2212;
