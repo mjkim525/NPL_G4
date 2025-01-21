@@ -351,6 +351,39 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 		new G4PVPlacement(rotm, posCollX, logicBox, "SC2", logicWorld, false, CollID, checkOverlaps);
 	}
 
+	if (PC->GetParBool("SiDetector_In"))
+	{
+		for(int i =0; i < PC->GetParInt("SiDetector_Number"); i++){
+			
+			G4Material* Boxmat = nist->FindOrBuildMaterial("G4_Si");
+			G4int boxID[20];
+			boxID[i] = (PC -> GetParInt("SiDetectorID"))*(i+1);
+
+			G4double box_sizeX = PC -> GetParDouble("SiDetector_sizeX");
+			G4double box_sizeY = PC -> GetParDouble("SiDetector_sizeY");
+			G4double box_sizeZ = PC -> GetParDouble("SiDetector_sizeZ");
+
+			G4double box_Xpos = PC -> GetParDouble("SiDetector_Xpos");
+			G4double box_Ypos = PC -> GetParDouble("SiDetector_Ypos");
+			G4double box_Zpos = PC -> GetParDouble("SiDetector_Zpos");
+			G4double boxs_dist = PC -> GetParDouble("SiDetector_Dist");
+
+			G4Box* solidBox = new G4Box("SiDetector_Box",0.5*box_sizeX, 0.5*box_sizeY,0.5*box_sizeZ);
+			G4LogicalVolume* logicBox[20];
+			logicBox[i] = new G4LogicalVolume(solidBox,Boxmat,"SiDetectormat");
+
+			G4VisAttributes* attBox = new G4VisAttributes(G4Colour(G4Colour::Yellow()));
+			attBox -> SetVisibility(true);
+			attBox -> SetForceWireframe(true);
+			logicBox[i] -> SetVisAttributes(attBox);
+			
+			G4double zpos = i*abs(box_sizeZ+boxs_dist*mm) + box_Zpos + box_sizeZ/2.;
+			G4ThreeVector posCollX(box_Xpos, box_Ypos, zpos);
+			new G4PVPlacement(0, posCollX, logicBox[i], "SiDetector", logicWorld, false, boxID[i], checkOverlaps);
+		}
+	}
+
+
 	
 
 

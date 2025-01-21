@@ -108,6 +108,19 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 					fRunAction -> FillStep(trackID, trackPDG, prevNo, postNo, pos, -1,KE_Pre,Step_dt,Index_CreatorModel,ID_Parent);
 			}
 		}
+
+		///// Step for the Si Detector ///// -> Will be updated
+		if(ParameterContainer::GetInstance()->GetParBool("SiDetector_In") == true){
+			for(int i =0; i < ParameterContainer::GetInstance()->GetParInt("SiDetector_Number"); i++){
+
+				if(prevNo == (ParameterContainer::GetInstance() -> GetParInt("SiDetectorID"))*(i+1) &&
+					postNo == ID_World){
+						//edepsum_2 +=edep;
+						fRunAction -> FillStep(trackID, trackPDG, prevNo, postNo, pos, -1,KE_Pre,Step_dt,Index_CreatorModel,ID_Parent);
+						//edepsum_2=0;
+				}
+			}
+		}
 			
 	}	
 

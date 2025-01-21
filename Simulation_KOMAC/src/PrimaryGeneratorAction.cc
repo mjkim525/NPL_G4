@@ -46,8 +46,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 void PrimaryGeneratorAction::GeneratePrimariesOpt0(G4Event* anEvent)
 {
+	
 	// default particle kinematic
 
+	CLHEP::HepRandomEngine* engine = new CLHEP::HepJamesRandom();
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 	G4String particleName = PC -> GetParString("Beam_particle");
 	G4ParticleDefinition* particle = particleTable->FindParticle(particleName);
@@ -62,14 +64,30 @@ void PrimaryGeneratorAction::GeneratePrimariesOpt0(G4Event* anEvent)
 
 		for(G4int n=0; n<PC -> GetParInt("NperEvent"); n++){
 
-			for(int i=0; i < Time_Beam; i++){
-				G4double x0 = 
-					(PC->GetParDouble("Beam_x0")+PC->GetParDouble("Beam_dx")*(G4UniformRand()-0.5)) * mm;
-				G4double y0 = 
-					(PC->GetParDouble("Beam_y0")+PC->GetParDouble("Beam_dy")*(G4UniformRand()-0.5)) * mm;
-				G4double z0 = 
-					(PC->GetParDouble("Beam_z0")+PC->GetParDouble("Beam_dz")*(G4UniformRand()-0.5)) * mm;
+			// for(int i=0; i < Time_Beam; i++){
+			// 	G4double x0 = 
+			// 		(PC->GetParDouble("Beam_x0")+PC->GetParDouble("Beam_dx")*(G4UniformRand()-0.5)) * mm;
+			// 	G4double y0 = 
+			// 		(PC->GetParDouble("Beam_y0")+PC->GetParDouble("Beam_dy")*(G4UniformRand()-0.5)) * mm;
+			// 	G4double z0 = 
+			// 		(PC->GetParDouble("Beam_z0")+PC->GetParDouble("Beam_dz")*(G4UniformRand()-0.5)) * mm;
 				
+			// 	fParticleGun->SetParticleDefinition(particle);
+			// 	fParticleGun->SetParticleTime((i+1) * ns);
+			// 	fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+			// 	fParticleGun->SetParticleMomentumDirection(G4ThreeVector(PC->GetParDouble("Beam_px0"),PC->GetParDouble("Beam_py0"),PC->GetParDouble("Beam_pz0")));
+			// 	fParticleGun->SetParticleEnergy(PC->GetParDouble("Beam_energy")*MeV);
+				
+			// 	fParticleGun->GeneratePrimaryVertex(anEvent);
+			// }
+
+			
+			for(int i=0; i < Time_Beam; i++){
+				G4double x0 = CLHEP::RandGauss::shoot(PC->GetParDouble("Beam_x0"),PC->GetParDouble("Beam_dx")) * mm;
+				 G4double y0 = CLHEP::RandGauss::shoot(PC->GetParDouble("Beam_y0"),PC->GetParDouble("Beam_dy")) * mm;
+				
+				 G4double z0 = CLHEP::RandGauss::shoot(PC->GetParDouble("Beam_z0"),PC->GetParDouble("Beam_dz")) * mm;
+					
 				fParticleGun->SetParticleDefinition(particle);
 				fParticleGun->SetParticleTime((i+1) * ns);
 				fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
